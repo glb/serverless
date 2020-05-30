@@ -1543,6 +1543,27 @@ provider:
             - '123.123.123.123'
 ```
 
+The framework will automatically wrap your provided statements into a resource policy document. Alternatively, you can provide the full resource policy document yourself:
+
+```yml
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  resourcePolicy:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal: '*'
+        Action: execute-api:Invoke
+        Resource:
+          - execute-api:/*/*/*
+        Condition:
+          IpAddress:
+            aws:SourceIp:
+              - '123.123.123.123'
+```
+
 ## Compression
 
 API Gateway allows for clients to receive [compressed payloads](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-gzip-compression-decompression.html), and supports various [content encodings](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-enable-compression.html#api-gateway-supported-content-encodings).
