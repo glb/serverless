@@ -279,6 +279,8 @@ provider:
 
     frameworkLambda: true # Optional, whether to write CloudWatch logs for custom resource lambdas as added by the framework
 
+  duplicateResourceBehavior: off # Optional, can be 'warn', 'error', or 'off' if present. If you have accidentally provided multiple resources with the same ID in your resources list, you can choose what will happen.
+
 package: # Optional deployment packaging configuration
   patterns: # Specify the directories and files which should be included in the deployment package
     - src/**

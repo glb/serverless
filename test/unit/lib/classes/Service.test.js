@@ -87,6 +87,39 @@ describe('Service', () => {
         expect(Resources.resource2).to.deep.equal({ Type: 'value2' });
       }));
 
+    it('should detect duplicate resource IDs and error', async () => {
+      await expect(
+        runServerless({
+          fixture: 'aws',
+          configExt: {
+            provider: {
+              name: 'aws',
+              duplicateResourceBehavior: 'error',
+            },
+            resources: [
+              {
+                Resources: {
+                  resource1: {
+                    Type: 'value',
+                  },
+                },
+              },
+              {
+                Resources: {
+                  resource1: {
+                    Type: 'value',
+                  },
+                },
+              },
+            ],
+          },
+          command: 'package',
+        })
+      ).to.be.eventually.rejectedWith(
+        'Duplicate resource logical ID `resource1` found in resources! Original item was in resources[0], duplicate found in resources[1]'
+      );
+    });
+
     it('should merge functions given as an array', () =>
       runServerless({
         fixture: 'aws',
